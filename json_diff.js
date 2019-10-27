@@ -1,5 +1,5 @@
-const left  = { 'a': 1, 'b': 2, 'c': 3, 'd' : { 'd1': 5 }, 'e': { 'e1': 10 }, 'f': 15 };
-const right = { 'a': 1, 'b': 2, 'c': { 'c1': 1, 'c2': { 'cc': 5, 'cd': null } }, 'f': 15 };
+const left  = { 'a': 1, 'b': 2, 'c': { 'c1': 3, 'c2': { 'cc': 5, 'cd': 'foo' } }, 'd' : { 'd1': 5, 'd2': 5 }, 'e': { 'e1': 0 }, 'f': 15 };
+const right = { 'a': 1, 'b': 5, 'c': { 'c1': 5, 'c2': { 'cc': 5 } },              'd' : { 'd3': 12 },                           'f': 15 };
 getDiff(left, right);
 
 function getKeys(left, right) {
@@ -30,20 +30,22 @@ function getDiff(left = {}, right = {}, parentKeys = []) {
     if (left[key] !== right[key]) {
 
       // output subtraction from left key
-      if (left[key] || left[key] === 0) {
+      if (left.hasOwnProperty(key)) {
         if (typeof left[key] !== 'object') {
-          console.log(`-${parentKeyString}${key}:${left[key]}`);
+          const leftKey = (typeof left[key] === 'string') ? `'${left[key]}'` : left[key];
+          console.log(`-${parentKeyString}${key}:${leftKey}`);
         } else {
-          getDiff(left[key], right[key], [...parentKeys, key]);
+          getDiff(left[key], {}, [...parentKeys, key]);
         }
       }
 
       // output addition to right key
-      if (right[key] || right[key] === 0) {
+      if (right.hasOwnProperty(key)) {
         if (typeof right[key] !== 'object') {
-           console.log(`+${parentKeyString}${key}:${right[key]}`);
+          const rightKey = (typeof right[key] === 'string') ? `'${right[key]}'` : right[key];
+          console.log(`+${parentKeyString}${key}:${rightKey}`);
         } else {
-          getDiff(left[key], right[key], [...parentKeys, key]);
+          getDiff({}, right[key], [...parentKeys, key]);
         }
       }
 
