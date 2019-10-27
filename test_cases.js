@@ -1,13 +1,13 @@
 const getDiff = require('./json_diff.js')
 
 const left  = {
-  'a': 1, 
-  'b': 'fooe', 
+  'a': 1,
+  'b': 3,
   'c': { 'c1': true, 'c2': { 'cc': 5, 'cd': 'foo' } }, 
   'd' : { 'd1': 5, 'd2': 5 }, 
   'e': { 'e1': 0 }, 
   'g': 15,
-  'h': [3, 5, 7],
+  'h': [3, 5, 7, null],
   'i': [10, 20]
 };
 const right = {
@@ -16,7 +16,7 @@ const right = {
   'c': { 'c1': false, 'c2': { 'cc': 5 } },
   'd' : { 'd3': 12 },
   'e':'bar',
-  'f': 15,
+  'f': null,
   'i': [30, 20]
 };
 const diffSet = getDiff(left, right);

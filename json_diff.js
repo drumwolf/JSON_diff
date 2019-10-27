@@ -1,7 +1,7 @@
 function getKeys(left, right) {
   // if left or right is a string, convert to empty object
-  left = (typeof left === 'object' && left) ? left : {};
-  right = (typeof right === 'object' && right) ? right : {};
+  left = (typeof left !== 'string') ? left : {};
+  right = (typeof right !== 'string') ? right : {};
 
   // declare vars
   const keys = [...Object.keys(left)];
@@ -27,6 +27,10 @@ function getKeys(left, right) {
   return keys;
 }
 
+function isObject(obj) {
+  return (obj && typeof obj === 'object'); // note: 'typeof obj' returns true if obj === null
+}
+
 function getDiff(left = {}, right = {}, parentKeys = [], diffSet = new Set()) {
   
   /* get all keys in left and right objects */
@@ -42,22 +46,21 @@ function getDiff(left = {}, right = {}, parentKeys = [], diffSet = new Set()) {
 
       // output subtraction from left key
       if (left.hasOwnProperty(key)) {
-        if (typeof left[key] !== 'object') {
+        if ( isObject(left[key]) ) {
+          getDiff(left[key], right[key], [...parentKeys, key], diffSet);
+        } else {
           const leftKey = (typeof left[key] === 'string') ? `'${left[key]}'` : left[key];
           diffSet.add(`-${parentKeyString}${key}:${leftKey}`);
-        } else {
-          getDiff(left[key], right[key], [...parentKeys, key], diffSet);
         }
       }
-
       // output addition to right key
       if (right.hasOwnProperty(key)) {
-        if (typeof right[key] !== 'object') {
+        if ( isObject(right[key]) ) {
+          getDiff(left[key], right[key], [...parentKeys, key], diffSet);
+        } else {
           const rightKey = (typeof right[key] === 'string') ? `'${right[key]}'` : right[key];
           diffSet.add(`+${parentKeyString}${key}:${rightKey}`);
-        } else {
-          getDiff(left[key], right[key], [...parentKeys, key], diffSet);
-        }
+        } 
       }
 
     }    
