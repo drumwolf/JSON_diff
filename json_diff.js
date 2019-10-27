@@ -1,15 +1,30 @@
 function getKeys(left, right) {
-  const keys = [...Object.keys(left), ...Object.keys(right)];
-  const allKeys = [];
-  const hash = {};
-  for (let i = 0; i < keys.length; i++) {
-    const char = keys[i];
-    if (!hash[char]) {
-      allKeys.push(char);
+  // if left or right is a string, convert to empty object
+  left = (typeof left === 'object' && left) ? left : {};
+  right = (typeof right === 'object' && right) ? right : {};
+
+  // declare vars
+  const keys = [...Object.keys(left)];
+  const rightKeys = Object.keys(right);
+  const leftKeyMap = {};
+
+  // map out which keys in left object exist
+  for (let i = 0, key; i < keys.length; i++) {
+    key = keys[i];
+    if (!leftKeyMap[key]) {
+      leftKeyMap[key] = true;
     }
-    hash[char] = true;
   }
-  return allKeys;
+
+  // filter out keys which are unique to right objects
+  for (let j = 0; j < rightKeys.length; j++) {
+    key = rightKeys[j];
+    if (!leftKeyMap[key]) {
+      keys.push(key)
+    }
+  }
+
+  return keys;
 }
 
 function getDiff(left = {}, right = {}, parentKeys = []) {
@@ -31,7 +46,7 @@ function getDiff(left = {}, right = {}, parentKeys = []) {
           const leftKey = (typeof left[key] === 'string') ? `'${left[key]}'` : left[key];
           console.log(`-${parentKeyString}${key}:${leftKey}`);
         } else {
-          getDiff(left[key], {}, [...parentKeys, key]);
+          getDiff(left[key], right[key], [...parentKeys, key]);
         }
       }
 
@@ -41,7 +56,7 @@ function getDiff(left = {}, right = {}, parentKeys = []) {
           const rightKey = (typeof right[key] === 'string') ? `'${right[key]}'` : right[key];
           console.log(`+${parentKeyString}${key}:${rightKey}`);
         } else {
-          getDiff({}, right[key], [...parentKeys, key]);
+          getDiff(left[key], right[key], [...parentKeys, key]);
         }
       }
 
