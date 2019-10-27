@@ -17,7 +17,7 @@ function getKeys(left, right) {
 }
 
 
-function getDiff(left, right, parentKeys = []) {
+function getDiff(left = {}, right = {}, parentKeys = []) {
   
   /* get all keys in left and right objects */
   const allKeys = getKeys(left, right);
