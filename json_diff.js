@@ -1,5 +1,5 @@
 const left  = { 'a': 1, 'b': 2, 'c': 3, 'd' : { 'd1': 5 }, 'e': { 'e1': 10 }, 'f': 15 };
-const right = { 'a': 1, 'b': 2, 'c': { 'c1': 1, 'c2': { 'cc': 5, 'cd': 0 } }, 'f': 15 };
+const right = { 'a': 1, 'b': 2, 'c': { 'c1': 1, 'c2': { 'cc': 5, 'cd': null } }, 'f': 15 };
 getDiff(left, right);
 
 function getKeys(left, right) {
