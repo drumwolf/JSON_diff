@@ -1,5 +1,5 @@
-const left = { 'a':1, 'b':2, 'c':3 };
-const right = { 'a':1, 'b':2, 'c': { 'c1': 1} };
+const left  = { 'a': 1, 'b': 2, 'c': 3 };
+const right = { 'a': 1, 'b': 2, 'c': { 'c1': 1 } };
 getDiff(left, right);
 
 function getKeys(left, right) {
@@ -17,10 +17,11 @@ function getKeys(left, right) {
 }
 
 
-function getDiff(left, right, parentKey) {
+function getDiff(left, right, parentKeys = []) {
   
   /* get all keys in left and right objects */
   const allKeys = getKeys(left, right);
+  const parentKeyString = (parentKeys.length) ? parentKeys.join('.') + "." : "";
 
   /* loop through all left and right keys */
   for (let i = 0; i < allKeys.length; i++) {
@@ -31,15 +32,19 @@ function getDiff(left, right, parentKey) {
 
       // output subtraction from left key
       if (left[key]) {
-        console.log(`-${parentKey}.${key}:${left[key]}`);
+        if (typeof left[key] !== 'object') {
+          console.log(`-${parentKeyString}${key}:${left[key]}`);
+        } else {
+          getDiff(left[key], right[key], [key]);
+        }
       }
 
       // output addition to right key
       if (right[key]) {
         if (typeof right[key] !== 'object') {
-           console.log(`+${parentKey}.${key}:${right[key]}`);
+           console.log(`+${parentKeyString}${key}:${right[key]}`);
         } else {
-          getDiff(left[key], right[key], key);
+          getDiff(left[key], right[key], [key]);
         }
       }
 
