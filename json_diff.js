@@ -1,7 +1,3 @@
-const left  = { 'a': 1, 'b': 2, 'c': { 'c1': 3, 'c2': { 'cc': 5, 'cd': 'foo' } }, 'd' : { 'd1': 5, 'd2': 5 }, 'e': { 'e1': 0 }, 'f': 15 };
-const right = { 'a': 1, 'b': 5, 'c': { 'c1': 5, 'c2': { 'cc': 5 } },              'd' : { 'd3': 12 },                           'f': 15 };
-getDiff(left, right);
-
 function getKeys(left, right) {
   const keys = [...Object.keys(left), ...Object.keys(right)];
   const allKeys = [];
@@ -53,3 +49,5 @@ function getDiff(left = {}, right = {}, parentKeys = []) {
     // end of block dealing with left and right key difference
   }
 }
+
+module.exports = getDiff;
