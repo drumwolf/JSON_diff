@@ -1,4 +1,4 @@
-const left  = { 'a': 1, 'b': 2, 'c': 3 };
+const left  = { 'a': 1, 'b': 2, 'c': 3, 'd' : { 'd1': 5 } };
 const right = { 'a': 1, 'b': 2, 'c': { 'c1': 1 } };
 getDiff(left, right);
 
