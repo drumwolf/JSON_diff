@@ -19,4 +19,5 @@ const right = {
   'f': 15,
   'i': [30, 20]
 };
-getDiff(left, right);
+const diffSet = getDiff(left, right);
+diffSet.forEach( obj => console.log(obj) )

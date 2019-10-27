@@ -27,7 +27,7 @@ function getKeys(left, right) {
   return keys;
 }
 
-function getDiff(left = {}, right = {}, parentKeys = []) {
+function getDiff(left = {}, right = {}, parentKeys = [], diffSet = new Set()) {
   
   /* get all keys in left and right objects */
   const allKeys = getKeys(left, right);
@@ -44,9 +44,9 @@ function getDiff(left = {}, right = {}, parentKeys = []) {
       if (left.hasOwnProperty(key)) {
         if (typeof left[key] !== 'object') {
           const leftKey = (typeof left[key] === 'string') ? `'${left[key]}'` : left[key];
-          console.log(`-${parentKeyString}${key}:${leftKey}`);
+          diffSet.add(`-${parentKeyString}${key}:${leftKey}`);
         } else {
-          getDiff(left[key], right[key], [...parentKeys, key]);
+          getDiff(left[key], right[key], [...parentKeys, key], diffSet);
         }
       }
 
@@ -54,15 +54,16 @@ function getDiff(left = {}, right = {}, parentKeys = []) {
       if (right.hasOwnProperty(key)) {
         if (typeof right[key] !== 'object') {
           const rightKey = (typeof right[key] === 'string') ? `'${right[key]}'` : right[key];
-          console.log(`+${parentKeyString}${key}:${rightKey}`);
+          diffSet.add(`+${parentKeyString}${key}:${rightKey}`);
         } else {
-          getDiff(left[key], right[key], [...parentKeys, key]);
+          getDiff(left[key], right[key], [...parentKeys, key], diffSet);
         }
       }
 
     }    
     // end of block dealing with left and right key difference
   }
+  return diffSet;
 }
 
 module.exports = getDiff;
