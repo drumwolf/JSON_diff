@@ -1,8 +1,9 @@
-const getDiff = require('./json_diff.js')
+const getDiffScope = require('./json_diff.js')
+const getDiffFunction = getDiffScope();
 
 const left  = {
   'a': 1,
-  'b': 3,
+  'b': 'foo',
   'c': { 'c1': true, 'c2': { 'cc': 5, 'cd': 'foo' } }, 
   'd' : { 'd1': 5, 'd2': 5 }, 
   'e': { 'e1': 0 }, 
@@ -17,7 +18,7 @@ const right = {
   'd' : { 'd3': 12 },
   'e':'bar',
   'f': null,
-  'i': [30, 20]
+  'i': [10, 30]
 };
-const diffSet = getDiff(left, right);
-diffSet.forEach( obj => console.log(obj) )
+const diffs = getDiffFunction(left, right);
+diffs.forEach( obj => console.log(obj) );
