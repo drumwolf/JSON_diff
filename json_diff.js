@@ -18,7 +18,7 @@ function getKeys(left, right) {
   }
 
   // filter out keys which are unique to right objects
-  for (let j = 0; j < rightKeys.length; j++) {
+  for (let j = 0, key; j < rightKeys.length; j++) {
     key = rightKeys[j];
     if (!leftKeyMap[key]) {
       keys.push(key)
